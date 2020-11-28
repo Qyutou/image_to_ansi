@@ -113,15 +113,13 @@ def get_average_section_color(image, x, y, width, height):
     for dx in range(width):
         for dy in range(height):
             # Check if is it possible to get color
-            if x + dx >= image.shape[0] or y + dy >= image.shape[1]:
-                return None
-
-            # Calculate new average color
-            iteration += 1
-            n_b, n_g, n_r = image[x + dx, y + dy]
-            ac_b = (ac_b + n_b)
-            ac_g = (ac_g + n_g)
-            ac_r = (ac_r + n_r)
+            if not x + dx >= image.shape[0] or y + dy >= image.shape[1]:
+                # Calculate new average color
+                iteration += 1
+                n_b, n_g, n_r = image[x + dx, y + dy]
+                ac_b = (ac_b + n_b)
+                ac_g = (ac_g + n_g)
+                ac_r = (ac_r + n_r)
 
     ac_b /= iteration
     ac_g /= iteration
@@ -131,13 +129,16 @@ def get_average_section_color(image, x, y, width, height):
     return int(ac_b), int(ac_g), int(ac_r)
 
 
-def convert_image_to_text(image):
+def convert_image_to_text(image, text_size=[80, 25]):
     # Scale image
-    scaled_image = scale_image(image)
+    scaled_image = scale_image(image, new_size=text_size)
+
+    cv2.imshow("scaled image", scaled_image)
+    cv2.waitKey(5000)
 
 
 def print_test_image():
-    scale_image(load_image("image_to_ansi/resources/image.png"))
+    convert_image_to_text(load_image("image_to_ansi/resources/image.png"))
     # print_ans_file("image_to_ansi/output/test.ans")
 
 
