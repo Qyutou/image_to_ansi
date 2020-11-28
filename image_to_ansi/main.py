@@ -1,5 +1,5 @@
 from cv2 import cv2
-
+import numpy as np
 
 class Colors(object):
     """Container of all required colors."""
@@ -66,7 +66,30 @@ def save_to_file(text, file_name, override=True):
         print("File not found: \"{}\"".format(file_name))
 
 
+def scale_image(image, new_size=[80, 25]):
+    """Scale the image to certain size"""
+    if image.shape[0] == image.shape[1]:
+        if new_size[0] <= new_size[1]:
+            new_size[1] = new_size[0]
+        else:
+            new_size[0] = new_size[1]
+
+    coefficient_x = image.shape[0] / new_size[0]
+    coefficient_y = image.shape[1] / new_size[1]
+    new_image = np.zeros((new_size[1], new_size[0], 3), np.uint8)
+
+    for y in range(new_size[1]):
+        for x in range(new_size[0]):
+            average_color = get_average_section_color(image, int(y*coefficient_y), int(x*coefficient_x), int(coefficient_y), int(coefficient_x))
+            if average_color is not None:
+                new_image[y, x] = average_color
+
+    cv2.imshow("scaled", new_image)
+    cv2.waitKey(5000)
+
+
 def get_average_section_color(image, x, y, width, height):
+    """Get average color in section"""
     # Check if is it possible to get color
     if x >= image.shape[0] or y >= image.shape[1]:
         return None
@@ -107,7 +130,8 @@ def load_image(image_path):
 
 
 def print_test_image():
-    print_ans_file("image_to_ansi/output/test.ans")
+    scale_image(load_image("image_to_ansi/resources/image.png"))
+    # print_ans_file("image_to_ansi/output/test.ans")
 
 
 def main():
