@@ -27,6 +27,11 @@ def generate_colored_text(text, color, bright=False):
     return "{}{}".format(generate_color(color, bright=bright), text)
 
 
+def generate_draw(color, bright=False):
+    """Create the block with certain color"""
+    return generate_colored_text("█{}".format(generate_color(Colors.reset)), color, bright=bright)
+
+
 def print_ans_file(file_name):
     """Prints .ans file"""
     try:
@@ -55,8 +60,19 @@ def save_to_file(text, file_name, override=True):
         print("File not found: \"{}\"".format(file_name))
 
 
+def convert_image(image, text_size=(80, 25), bg=True):
+    out_str = " "
+    if bg:
+        for x in range(text_size[1]):
+            for j in range(text_size[0]):
+                out_str += generate_draw(Colors.white, bright=True)
+            out_str += "\n"
+
+    return out_str
+
+
 def print_test_image():
-    save_to_file(generate_colored_text("█", Colors.red), "image_to_ansi/output/test.ans", override=False)
+    save_to_file(convert_image("img"), "image_to_ansi/output/test.ans")
     print_ans_file("image_to_ansi/output/test.ans")
 
 
