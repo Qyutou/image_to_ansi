@@ -11,4 +11,8 @@ env.bak/
 venv.bak/
 
 # Possible files
+output/
 *.ans
+resources/
+*.png
+
