@@ -1,19 +1,17 @@
 from cv2 import cv2
 import numpy as np
 
+
 class Colors(object):
     """Container of all required colors."""
     black = 30
-    black_bgr = (0, 0, 0)
     red = 31
-    red_bgr = (0, 0, 255)
     green = 32
     yellow = 33
     blue = 34
     magenta = 35
     cyan = 36
     white = 37
-    white_bgr = (255, 255, 255)
     reset = 0
 
 
