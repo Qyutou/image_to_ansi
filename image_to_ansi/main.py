@@ -90,7 +90,9 @@ def scale_image(image, new_size=[80, 25]):
     # Main loop which scale image
     for y in range(new_size[1]):
         for x in range(new_size[0]):
-            average_color = get_average_section_color(image, int(y*coefficient_y), int(x*coefficient_x), int(coefficient_y), int(coefficient_x))
+            average_color = get_average_section_color(image,
+                                                      int(y*coefficient_y), int(x*coefficient_x),
+                                                      int(coefficient_y), int(coefficient_x))
             if average_color is not None:
                 new_image[y, x] = average_color
 
