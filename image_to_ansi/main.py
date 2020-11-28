@@ -64,26 +64,37 @@ def save_to_file(text, file_name, override=True):
         print("File not found: \"{}\"".format(file_name))
 
 
+def load_image(image_path):
+    """Return loaded image"""
+    try:
+        image = cv2.imread(image_path)
+        return image
+    except FileNotFoundError:
+        print("File not found")
+
+
 def scale_image(image, new_size=[80, 25]):
     """Scale the image to certain size"""
+    # If the image is square
     if image.shape[0] == image.shape[1]:
         if new_size[0] <= new_size[1]:
             new_size[1] = new_size[0]
         else:
             new_size[0] = new_size[1]
 
+    # Calculate coefficients
     coefficient_x = image.shape[0] / new_size[0]
     coefficient_y = image.shape[1] / new_size[1]
     new_image = np.zeros((new_size[1], new_size[0], 3), np.uint8)
 
+    # Main loop which scale image
     for y in range(new_size[1]):
         for x in range(new_size[0]):
             average_color = get_average_section_color(image, int(y*coefficient_y), int(x*coefficient_x), int(coefficient_y), int(coefficient_x))
             if average_color is not None:
                 new_image[y, x] = average_color
 
-    cv2.imshow("scaled", new_image)
-    cv2.waitKey(5000)
+    return new_image
 
 
 def get_average_section_color(image, x, y, width, height):
@@ -118,13 +129,9 @@ def get_average_section_color(image, x, y, width, height):
     return int(ac_b), int(ac_g), int(ac_r)
 
 
-def load_image(image_path):
-    """Return loaded image"""
-    try:
-        image = cv2.imread(image_path)
-        return image
-    except FileNotFoundError:
-        print("File not found")
+def convert_image_to_text(image):
+    # Scale image
+    scaled_image = scale_image(image)
 
 
 def print_test_image():
