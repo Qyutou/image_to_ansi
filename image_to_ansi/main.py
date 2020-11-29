@@ -5,7 +5,8 @@ import sys
 import re
 
 
-def convert_image_to_text(image, text_size=[80, 25], background=True, character=None, alpha=True):
+
+def convert_image_to_text(image, text_size=[100, 40], background=True, character=None, alpha=True):
     """This method simply use the algorithm which translate image to text."""
     # Load the colors
     colors = Colors("resources/colors.json")
@@ -95,7 +96,7 @@ def get_size(size):
 
 @main.command()
 @click.option("--s", "--size", "size",
-              default="80x25", show_default=True, type=str,
+              default="100x40", show_default=True, type=str,
               help="Size of the text.")
 @click.option("--bg", "--background", "background",
               default=True, show_default=True, type=bool,
@@ -104,7 +105,7 @@ def get_size(size):
               default=None, show_default=False, type=str,
               help="Character which used to draw image. (Default: pseudographics)")
 @click.option("--a", "--alpha", "alpha",
-              default=None, show_default=True, type=bool,
+              default=True, show_default=True, type=bool,
               help="If true the transparent parts will be transparent.")
 @click.argument("input_path")
 @click.argument("output_path")
@@ -124,7 +125,7 @@ def convert(size, background, character, alpha, input_path, output_path):
 
 @main.command()
 @click.option("--s", "--size", "size",
-              default="80x25", show_default=True, type=str,
+              default="100x40", show_default=True, type=str,
               help="Size of the text.")
 @click.option("--bg", "--background", "background",
               default=True, show_default=True, type=bool,
@@ -133,7 +134,7 @@ def convert(size, background, character, alpha, input_path, output_path):
               default=None, show_default=False, type=str,
               help="Character which used to draw image. (Default: pseudographics)")
 @click.option("--a", "--alpha", "alpha",
-              default=None, show_default=True, type=bool,
+              default=True, show_default=True, type=bool,
               help="If true the transparent parts will be transparent.")
 @click.argument("path")
 def draw(size, background, character, alpha, path):
