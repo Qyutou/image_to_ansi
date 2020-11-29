@@ -100,7 +100,6 @@ def get_text_by_image(image, colors):
     return output_text
 
 
-# ANSI-Files handling section
 def print_ans_file(file_name):
     """Prints .ans file"""
     try:
