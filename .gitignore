@@ -16,7 +16,7 @@ env.bak/
 venv.bak/
 
 # Possible files
-output/
+image_to_ansi/output/
 *.ans
 *.png
 
