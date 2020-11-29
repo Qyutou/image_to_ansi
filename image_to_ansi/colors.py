@@ -82,15 +82,23 @@ class Colors(object):
         return difference
 
     @staticmethod
-    def generate_color(color,):
-        return "\u001b[38;5;%dm\u001b[48;5;%dm" % (color, color)
+    def generate_color(color, foreground=True, background=True):
+        text = ""
+
+        if foreground:
+            text += "\u001b[38;5;%dm" % color
+        if background:
+            text += "\u001b[48;5;%dm" % color
+
+        return text
 
     @staticmethod
-    def generate_colored_text(text, color):
+    def generate_colored_text(text, color, foreground=True, background=True):
         """Create the text with certain color"""
-        return "{}{}".format(Colors.generate_color(color), text)
+        return "{}{}{}".format(Colors.generate_color(color, foreground=foreground, background=background),
+                               text, "\u001b[{}m".format(0))
 
     @staticmethod
-    def generate_draw(color):
+    def generate_draw(color, background=True):
         """Create the block with certain color"""
-        return Colors.generate_colored_text("█{}".format("\u001b[{}m".format(0)), color)
+        return Colors.generate_colored_text("█", color, background=background)
