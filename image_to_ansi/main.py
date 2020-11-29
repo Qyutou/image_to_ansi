@@ -3,6 +3,7 @@ import image_handler as ih
 import click
 import sys
 import re
+import cv2
 
 
 def convert_image_to_text(image, text_size=[80, 25], background=True, character=None):
@@ -28,13 +29,19 @@ def get_text_by_image(image, colors, background=True, character=None):
         for y in range(image.shape[1]):
             # Get the color of current pixel
             image_color = image[x, y]
-            # Find the closest color from the possible ansi-colors
-            color = colors.get_closest_color(image_color)
-            # Add new character
-            if character is None:
-                output_text += colors.generate_draw(color, background=background)
+
+            # If this pixel is transparent then place space here
+            if image_color[3] == 0:
+                output_text += " "
             else:
-                output_text += colors.generate_colored_text(character, color, background=background)
+                # Find the closest color from the possible ansi-colors
+                color = colors.get_closest_color(image_color)
+
+                # Add new character
+                if character is None:
+                    output_text += colors.generate_draw(color, background=background)
+                else:
+                    output_text += colors.generate_colored_text(character, color, background=background)
         output_text += "\n"
     return output_text
 
