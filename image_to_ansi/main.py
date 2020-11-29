@@ -3,10 +3,9 @@ import image_handler as ih
 import click
 import sys
 import re
-import cv2
 
 
-def convert_image_to_text(image, text_size=[80, 25], background=True, character=None):
+def convert_image_to_text(image, text_size=[80, 25], background=True, character=None, alpha=True):
     """This method simply use the algorithm which translate image to text."""
     # Load the colors
     colors = Colors("resources/colors.json")
@@ -17,12 +16,12 @@ def convert_image_to_text(image, text_size=[80, 25], background=True, character=
 
     # Get the text version of image
     print("Creating text Version...")
-    output_text = get_text_by_image(scaled_image, colors, background=background, character=character)
+    output_text = get_text_by_image(scaled_image, colors, background=background, character=character, alpha=alpha)
 
     return output_text
 
 
-def get_text_by_image(image, colors, background=True, character=None):
+def get_text_by_image(image, colors, background=True, character=None, alpha=True):
     """Get text from image."""
     output_text = ""
     for x in range(image.shape[0]):
@@ -31,7 +30,7 @@ def get_text_by_image(image, colors, background=True, character=None):
             image_color = image[x, y]
 
             # If this pixel is transparent then place space here
-            if image_color[3] == 0:
+            if image_color[3] == 0 and alpha:
                 output_text += " "
             else:
                 # Find the closest color from the possible ansi-colors
@@ -104,13 +103,16 @@ def get_size(size):
 @click.option("--c", "--character", "character",
               default=None, show_default=False, type=str,
               help="Character which used to draw image. (Default: pseudographics)")
+@click.option("--a", "--alpha", "alpha",
+              default=None, show_default=True, type=bool,
+              help="If true the transparent parts will be transparent.")
 @click.argument("input_path")
 @click.argument("output_path")
-def convert(size, background, character, input_path, output_path):
+def convert(size, background, character, alpha, input_path, output_path):
     """Convert image to text, and save it to file."""
     # Get converted image
     text = convert_image_to_text(ih.load_image(input_path),
-                                 text_size=get_size(size), background=background, character=character)
+                                 text_size=get_size(size), background=background, character=character, alpha=alpha)
 
     # Save text
     save_to_file(text, output_path)
@@ -130,8 +132,11 @@ def convert(size, background, character, input_path, output_path):
 @click.option("--c", "--character", "character",
               default=None, show_default=False, type=str,
               help="Character which used to draw image. (Default: pseudographics)")
+@click.option("--a", "--alpha", "alpha",
+              default=None, show_default=True, type=bool,
+              help="If true the transparent parts will be transparent.")
 @click.argument("path")
-def draw(size, background, character, path):
+def draw(size, background, character, alpha, path):
     """Draw image(.png or .jpg) or ansi file(.ans)."""
     # Check if file extension is image or ansi file
     if path.endswith(".ans"):
@@ -140,7 +145,7 @@ def draw(size, background, character, path):
     elif path.endswith(".png") or path.endswith(".jpg"):
         # Print the converted version
         print(convert_image_to_text(ih.load_image(path),
-                                    text_size=get_size(size), background=background, character=character))
+                                    text_size=get_size(size), background=background, character=character, alpha=alpha))
     pass
 
 
