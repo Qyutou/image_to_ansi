@@ -14,9 +14,12 @@ A simple application to convert images to ansi like so:
 ```
 
 ## Usage
-This application have 2 main commands, draw(simply draw image in ansi graphics) 
+This application have 2 main commands: draw(simply draw image in ansi graphics) 
 and convert(draw image in ansi graphics and save it to .ans file):
 ```bash
   $ image_to_ansi draw [options] <FILE_NAME>
   $ image_to_ansi convert [options] <FILE_NAME> <OUTPUT>
 ```
+Options can be used to specify the details of required message. 
+
+You can see the full list of them by run command with ``--help`` option.
