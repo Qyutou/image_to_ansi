@@ -3,12 +3,18 @@ import image_to_ansi.image_handler as ih
 import click
 import sys
 import re
+import pathlib
+
+# Directory containing this file
+HERE = pathlib.Path(__file__).parent.absolute()
 
 
 def convert_image_to_text(image, text_size, background=True, character=None, alpha=True):
     """This method simply use the algorithm which translate image to text."""
     # Load the colors
-    colors = Colors("image_to_ansi/resources/colors.json")
+    path = "%s/resources/colors.json" % (HERE.absolute())
+    print(path)
+    colors = Colors(path)
 
     # Scale image
     scaled_image = ih.scale_image(image, new_size=text_size)
