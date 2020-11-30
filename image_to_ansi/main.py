@@ -148,6 +148,8 @@ def draw(size, background, character, alpha, path):
         # Print the converted version
         convert_image_to_text(ih.load_image(path),
                                     text_size=get_size(size), background=background, character=character, alpha=alpha)
+    else:
+        print("Incorrect file.\nFile extension should be .ans, .png or .jpg")
     pass
 
 
