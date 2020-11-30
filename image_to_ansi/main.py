@@ -5,7 +5,6 @@ import sys
 import re
 
 
-
 def convert_image_to_text(image, text_size=[100, 40], background=True, character=None, alpha=True):
     """This method simply use the algorithm which translate image to text."""
     # Load the colors
@@ -29,14 +28,16 @@ def get_text_by_image(image, colors, background=True, character=None, alpha=True
         for y in range(image.shape[1]):
             # Get the color of current pixel
             image_color = image[x, y]
+            required = True
 
             # If this pixel is transparent then place space here
-            if image_color[3] == 0 and alpha:
-                output_text += " "
-            else:
+            if image.shape[2] >= 4 and alpha:
+                if image_color[3] == 0:
+                    output_text += " "
+                    required = False
+            if required:
                 # Find the closest color from the possible ansi-colors
                 color = colors.get_closest_color(image_color)
-
                 # Add new character
                 if character is None:
                     output_text += colors.generate_draw(color, background=background)
