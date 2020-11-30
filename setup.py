@@ -23,6 +23,8 @@ setup(
     name="image_to_ansi",
     description="A simple application to convert images to ansi.",
     version="1.0.0",
+    include_package_data=True,
+    package_data={'resources': ['*.bin']},
     packages=find_packages(),
     install_requires=install_requires,
     entry_points="""
