@@ -14,9 +14,16 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+*.egg-info/
+build/
+dist/
 
 # Possible files
-image_to_ansi/output/
 *.ans
 *.png
+
+# PyInstaller
+*.manifest
+*.spec
+
 
