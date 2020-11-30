@@ -1,5 +1,5 @@
 # image_to_ansi
-A simple application to convert images to ansi like so:
+A simple application to convert images to ANSI graphics like so:
 
 ![Example 1](https://github.com/Qyutou/image_to_ansi/blob/main/example/example1.png)
 
@@ -14,8 +14,8 @@ A simple application to convert images to ansi like so:
 ```
 
 ## Usage
-This application have 2 main commands: draw(simply draw image in ansi graphics) 
-and convert(draw image in ansi graphics and save it to .ans file):
+This application have 2 main commands: draw (simply draw the image in ANSI graphics) 
+and convert (draws the image in ANSI graphics and save it to .ans file):
 ```bash
   $ image_to_ansi draw [options] <FILE_NAME>
   $ image_to_ansi convert [options] <FILE_NAME> <OUTPUT>
