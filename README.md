@@ -24,6 +24,6 @@ and convert (draws the image in ANSI art and save it to .ans file):
   $ image_to_ansi draw [options] <FILE_NAME>
   $ image_to_ansi convert [options] <FILE_NAME> <OUTPUT>
 ```
-Options can be used to specify the details of required message. 
+Options can be used to specify the details of required ANSI art. 
 
 You can see the full list of them by run command with ``--help`` option.
