@@ -18,10 +18,6 @@ venv.bak/
 build/
 dist/
 
-# Possible files
-*.ans
-*.png
-
 # PyInstaller
 *.manifest
 *.spec
