@@ -115,16 +115,16 @@ def get_size(size):
 @click.option("--a", "--alpha", "alpha",
               default=True, show_default=True, type=bool,
               help="If true the transparent parts will be transparent.")
-@click.argument("input_path", type=str)
+@click.argument("file_name", type=str)
 @click.argument("output_path", type=str)
-def convert(size, background, character, alpha, input_path, output_path):
+def convert(size, background, character, alpha, file_name, output_path):
     """Convert image to text, and save it to file."""
 
-    if input_path.endswith(".png") or input_path.endswith(".jpg"):
+    if file_name.endswith(".png") or file_name.endswith(".jpg"):
         if not output_path.endswith(".ans"):
             output_path += ".ans"
         # Get converted image
-        text = convert_image_to_text(ih.load_image(input_path),
+        text = convert_image_to_text(ih.load_image(file_name),
                                      text_size=get_size(size), background=background, character=character, alpha=alpha)
         # Save text
         save_to_file(text, output_path)
@@ -146,16 +146,16 @@ def convert(size, background, character, alpha, input_path, output_path):
 @click.option("--a", "--alpha", "alpha",
               default=True, show_default=True, type=bool,
               help="If true the transparent parts will be transparent.")
-@click.argument("path", type=str)
-def draw(size, background, character, alpha, path):
+@click.argument("file_name", type=str)
+def draw(size, background, character, alpha, file_name):
     """Draw image(.png or .jpg) or ansi file(.ans)."""
     # Check if file extension is image or ansi file
-    if path.endswith(".ans"):
+    if file_name.endswith(".ans"):
         # Print the .ans file
-        print_ans_file(path)
-    elif path.endswith(".png") or path.endswith(".jpg"):
+        print_ans_file(file_name)
+    elif file_name.endswith(".png") or file_name.endswith(".jpg"):
         # Print the converted version
-        convert_image_to_text(ih.load_image(path),
+        convert_image_to_text(ih.load_image(file_name),
                               text_size=get_size(size), background=background, character=character, alpha=alpha)
     else:
         print("Incorrect file: File extension should be .ans, .png or .jpg")
