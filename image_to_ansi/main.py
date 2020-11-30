@@ -13,7 +13,6 @@ def convert_image_to_text(image, text_size, background=True, character=None, alp
     """This method simply use the algorithm which translate image to text."""
     # Load the colors
     path = "%s/resources/colors.json" % (HERE.absolute())
-    print(path)
     colors = Colors(path)
 
     # Scale image
