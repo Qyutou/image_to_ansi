@@ -25,6 +25,7 @@ def get_text_by_image(image, colors, background=True, character=None, alpha=True
     """Get text from image."""
     output_text = ""
     for x in range(image.shape[0]):
+        new_line = ""
         for y in range(image.shape[1]):
             # Get the color of current pixel
             image_color = image[x, y]
@@ -33,16 +34,18 @@ def get_text_by_image(image, colors, background=True, character=None, alpha=True
             # If this pixel is transparent then place space here
             if image.shape[2] >= 4 and alpha:
                 if image_color[3] == 0:
-                    output_text += " "
+                    new_line += " "
                     required = False
             if required:
                 # Find the closest color from the possible ansi-colors
                 color = colors.get_closest_color(image_color)
                 # Add new character
                 if character is None:
-                    output_text += colors.generate_draw(color, background=background)
+                    new_line += colors.generate_draw(color, background=background)
                 else:
-                    output_text += colors.generate_colored_text(character, color, background=background)
+                    new_line += colors.generate_colored_text(character, color, background=background)
+        print(new_line)
+        output_text += new_line
         output_text += "\n"
     return output_text
 
@@ -118,9 +121,6 @@ def convert(size, background, character, alpha, input_path, output_path):
 
     # Save text
     save_to_file(text, output_path)
-
-    # Draw text
-    print_ans_file(output_path)
     pass
 
 
@@ -146,8 +146,8 @@ def draw(size, background, character, alpha, path):
         print_ans_file(path)
     elif path.endswith(".png") or path.endswith(".jpg"):
         # Print the converted version
-        print(convert_image_to_text(ih.load_image(path),
-                                    text_size=get_size(size), background=background, character=character, alpha=alpha))
+        convert_image_to_text(ih.load_image(path),
+                                    text_size=get_size(size), background=background, character=character, alpha=alpha)
     pass
 
 
