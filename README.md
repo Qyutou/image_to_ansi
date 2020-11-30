@@ -5,7 +5,7 @@ A simple application to convert images to ANSI art like so:
 
 ![Example 2](https://github.com/Qyutou/image_to_ansi/blob/main/example/example2.png)
 
-Check out the examples output by run this command:
+Check out the example output by running the next command:
 ```bash
   $ cat examples/exapmle1.ans examples/example2.ans
 ```
