@@ -1,5 +1,5 @@
-from colors import Colors
-import image_handler as ih
+from image_to_ansi.colors import Colors
+import image_to_ansi.image_handler as ih
 import click
 import sys
 import re
