@@ -5,17 +5,15 @@ import sys
 import re
 
 
-def convert_image_to_text(image, text_size=[100, 40], background=True, character=None, alpha=True):
+def convert_image_to_text(image, text_size, background=True, character=None, alpha=True):
     """This method simply use the algorithm which translate image to text."""
     # Load the colors
     colors = Colors("resources/colors.json")
 
     # Scale image
-    print("Scaling Image...")
     scaled_image = ih.scale_image(image, new_size=text_size)
 
     # Get the text version of image
-    print("Creating text Version...")
     output_text = get_text_by_image(scaled_image, colors, background=background, character=character, alpha=alpha)
 
     return output_text
@@ -70,6 +68,7 @@ def save_to_file(text, file_name, override=True):
     try:
         if override:
             with open(file_name, "w") as file:
+                print("Successfully saved to \"%s\"" % file_name)
                 file.write(text)
         else:
             with open(file_name, "a") as file:
@@ -95,12 +94,12 @@ def get_size(size):
         return sizes
     else:
         print("Size should be in WWWxHHH format")
-        return 80, 25
+        return 80, 40
 
 
 @main.command()
 @click.option("--s", "--size", "size",
-              default="100x40", show_default=True, type=str,
+              default="80x40", show_default=True, type=str,
               help="Size of the text.")
 @click.option("--bg", "--background", "background",
               default=True, show_default=True, type=bool,
@@ -111,22 +110,27 @@ def get_size(size):
 @click.option("--a", "--alpha", "alpha",
               default=True, show_default=True, type=bool,
               help="If true the transparent parts will be transparent.")
-@click.argument("input_path")
-@click.argument("output_path")
+@click.argument("input_path", type=str)
+@click.argument("output_path", type=str)
 def convert(size, background, character, alpha, input_path, output_path):
     """Convert image to text, and save it to file."""
-    # Get converted image
-    text = convert_image_to_text(ih.load_image(input_path),
-                                 text_size=get_size(size), background=background, character=character, alpha=alpha)
 
-    # Save text
-    save_to_file(text, output_path)
+    if input_path.endswith(".png") or input_path.endswith(".jpg"):
+        if not output_path.endswith(".ans"):
+            output_path += ".ans"
+        # Get converted image
+        text = convert_image_to_text(ih.load_image(input_path),
+                                     text_size=get_size(size), background=background, character=character, alpha=alpha)
+        # Save text
+        save_to_file(text, output_path)
+    else:
+        print("Incorrect input file: File should be .png or .jpg")
     pass
 
 
 @main.command()
 @click.option("--s", "--size", "size",
-              default="100x40", show_default=True, type=str,
+              default="80x40", show_default=True, type=str,
               help="Size of the text.")
 @click.option("--bg", "--background", "background",
               default=True, show_default=True, type=bool,
@@ -137,7 +141,7 @@ def convert(size, background, character, alpha, input_path, output_path):
 @click.option("--a", "--alpha", "alpha",
               default=True, show_default=True, type=bool,
               help="If true the transparent parts will be transparent.")
-@click.argument("path")
+@click.argument("path", type=str)
 def draw(size, background, character, alpha, path):
     """Draw image(.png or .jpg) or ansi file(.ans)."""
     # Check if file extension is image or ansi file
@@ -147,9 +151,9 @@ def draw(size, background, character, alpha, path):
     elif path.endswith(".png") or path.endswith(".jpg"):
         # Print the converted version
         convert_image_to_text(ih.load_image(path),
-                                    text_size=get_size(size), background=background, character=character, alpha=alpha)
+                              text_size=get_size(size), background=background, character=character, alpha=alpha)
     else:
-        print("Incorrect file.\nFile extension should be .ans, .png or .jpg")
+        print("Incorrect file: File extension should be .ans, .png or .jpg")
     pass
 
 
